@@ -2,12 +2,17 @@ import Product from './Product.vue';
 import Cart from './Cart.vue';
 import ViewProduct from './ViewProduct.vue'
 import ProProduct from './ProProduct.vue';
-import ProReview from './ProductReview.vue';
+import ProReviews from './ProductReview.vue';
+import SpecialOffer from './SpecialOffer.vue'
+import ViewProfile from './ViewProfile.vue'
 
 export const routes = [
 		{
 			path: '',
-			component: Product
+			components: {
+				default: Product,
+				discount: SpecialOffer
+			}
 		},
 		{
 			path: '/products/:productId',
@@ -16,12 +21,20 @@ export const routes = [
 			component: ProProduct,
 			children: [
 				{ path: 'details', name: 'viewProduct', props: true, component: ViewProduct },
-				{ path: 'reviews', name: 'productReviews', props: true, component: ProReview }
+				{ path: 'reviews', name: 'productReviews', props: true, component: ProReviews }
 			]
 		},
 		{
 			path: '/cart', 
 			component: Cart, alias: '/shopping-cart'
+		},
+		{
+			path: '/user/viewProfile',
+			name: 'viewProfile',
+			component: ViewProfile,
+			meta: {
+				isAuthRequired: true
+			}
 		},
 		{
 			path: '*',

@@ -14,10 +14,39 @@ Vue.filter('currency', function(value) {
 })
 
 export const eventBus = new Vue();
+export const authService = { isLoggedIn: false };
 
 const router = new VueRouter({
 	routes: routes,
-	mode: 'history'
+	mode: 'history',
+	scrollBehavior(to, from, savedPosition) {
+		if(to.hash) {
+			return {
+				selector: to.hash
+			};
+		}
+
+		if(savedPosition) {
+			return savedPosition;
+		}
+
+		return { x: 0, y: 0};
+	}
+});
+
+router.beforeEach((to, from, next) => {
+	if(to.matched.some(record => record.meta.isAuthRequired)){
+		if(!authService.isLoggedIn){
+			alert("You must be logged in.!");
+			return next(false);
+		}
+	}
+
+	next();
+});
+
+router.afterEach((to, from) => {
+	//alert("You just navigated here!")
 });
 
 Vue.use(VueRouter);

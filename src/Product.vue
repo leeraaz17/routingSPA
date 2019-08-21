@@ -1,10 +1,10 @@
 <template>
-    <div id="products" class="row list-group">
-        <div v-for="product in products" class="item col-md-12">
-            <div class="thumbnail col-md-4">
+    <div id="products" class="row">
+        <div v-for="product in products" class="col">
+            <div class="col-sm-9">
                 <img @click="clickedImage(product)" class="group list-group-image" src="http://placehold.it/400x250/000/fff">
                 <div class="caption">
-                    <router-link :to="{ name: 'viewProduct', params: { productId: product.id } }" tag="h4" class="group inner list-group-item-heading">
+                    <router-link :to="{ name: 'viewProduct', params: { productId: product.id }, hash: '#related' }" tag="h4" class="group inner list-group-item-heading">
                         <a>{{ product.name }} </a>
                     </router-link>
                     <p class="group inner list-group-item-text">{{ product.description }}</p>
@@ -50,6 +50,9 @@
                     name: 'viewProduct',
                     params: {
                         productId: product.id
+                    },
+                    query: {
+                        discount: 10
                     }
                 });
             }  
